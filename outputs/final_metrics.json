@@ -1,0 +1,111 @@
+{
+  "recipe_metrics": {
+    "n_samples": 660,
+    "n_factors": 8,
+    "weighted_r2": 0.9858731863205887,
+    "mean_mae": 0.11225967400679414,
+    "mean_auc": null,
+    "mean_f1": 0.9588098380223263,
+    "exact_match_rate": 0.0,
+    "partial_match_rate": 0.6651515151515152,
+    "weighted_recipe_score": 0.7164772727272727
+  },
+  "factor_metrics": {
+    "egf": {
+      "factor_name": "egf",
+      "model_type": "regression",
+      "n_samples": 256,
+      "mae": 0.025836989496712766,
+      "rmse": 0.07389857304341854,
+      "r2": 0.9945390009021465,
+      "discrete_accuracy": 0.0,
+      "accuracy": null,
+      "f1": null,
+      "auc": null
+    },
+    "y27632": {
+      "factor_name": "y27632",
+      "model_type": "binary_classifier",
+      "n_samples": 231,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": 0.9787878787878788,
+      "f1": 0.9696969696969697,
+      "auc": null
+    },
+    "n_acetyl_cysteine": {
+      "factor_name": "n_acetyl_cysteine",
+      "model_type": "binary_classifier",
+      "n_samples": 176,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": 0.9848484848484849,
+      "f1": 0.9710982658959537,
+      "auc": null
+    },
+    "a83_01": {
+      "factor_name": "a83_01",
+      "model_type": "binary_classifier",
+      "n_samples": 176,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": 0.9848484848484849,
+      "f1": 0.9710982658959537,
+      "auc": null
+    },
+    "sb202190": {
+      "factor_name": "sb202190",
+      "model_type": "binary_classifier",
+      "n_samples": 87,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": 0.9803030303030303,
+      "f1": 0.9221556886227545,
+      "auc": null
+    },
+    "fgf2": {
+      "factor_name": "fgf2",
+      "model_type": "binary_classifier",
+      "n_samples": 75,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": 0.990909090909091,
+      "f1": 0.96,
+      "auc": null
+    },
+    "cholera_toxin": {
+      "factor_name": "cholera_toxin",
+      "model_type": "regression",
+      "n_samples": 25,
+      "mae": 0.19868235851687552,
+      "rmse": 0.3207253575796008,
+      "r2": 0.8971352450054372,
+      "discrete_accuracy": 0.0,
+      "accuracy": null,
+      "f1": null,
+      "auc": null
+    },
+    "insulin": {
+      "factor_name": "insulin",
+      "model_type": "constant",
+      "n_samples": 5,
+      "mae": null,
+      "rmse": null,
+      "r2": null,
+      "discrete_accuracy": null,
+      "accuracy": null,
+      "f1": null,
+      "auc": null
+    }
+  }
+}
