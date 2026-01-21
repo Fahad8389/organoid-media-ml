@@ -10,10 +10,27 @@
 5. **ML Pipeline** -> `src/` modules for preprocessing and modeling
 6. **Outputs** -> Trained models, metrics, feature importance
 
-### Database Tables
-- `media_protocols` - Raw media text per case_id
-- `media_factors_structured` - Extracted factor concentrations
-- `master_dataset_v2` - Final joined dataset
+### Database Tables (v3.0)
+
+**Core Tables:**
+- `clinical_data_full` - 660 rows, patient metadata
+- `media_protocols` - 387 rows, raw ATCC media text
+- `gene_expression` - 29.7M rows, RNA-seq TPM values
+- `mutations` - 182K rows, somatic variants
+
+**V3.0 Tables (Added 2026-01-22):**
+- `media_factors_v3` - 660 × 60, 13 factors with audit trail
+- `master_dataset_v3` - 660 × 206, unified dataset
+- `gene_expression_top1000` - 490 × 1003, top variable genes (raw TPM)
+- `gene_expression_pathways` - 490 × 29, pathway aggregates
+- `gene_expression_markers` - 490 × 26, curated marker genes
+- `top_variable_genes` - 1000 rows, genes ranked by variance
+- `data_cleaning_log` - Audit trail for data cleaning
+- `outlier_flags` - Flagged outliers for review
+
+**Legacy Tables:**
+- `media_factors_structured` - 317 rows (superseded by v3)
+- `master_dataset_v2` - 660 rows (superseded by v3)
 
 ### ML Pipeline Components
 
@@ -283,3 +300,69 @@ python scripts/verification/verify_db_link.py
 
 **Stop Point:** Phase 6 Complete: Database distribution system established
 **Next Session:** Data Management
+
+---
+
+### 2026-01-22: Database Upgrade v3.0
+
+**Accomplishments:**
+
+1. **Phase 1 - Formulation Mapping Analysis:**
+   - Analyzed ATCC formulation references in raw text
+   - Discovered concentrations NOT in raw text (only formulation #s)
+   - Decision: Option B - use only existing data, NULL for missing
+
+2. **Phase 2 - Media Factors v3:**
+   - Created `media_factors_v3` table (660 rows × 60 cols)
+   - Parsed 5 existing factors: EGF (39%), Y-27632 (35%), A83-01 (27%), N-Acetylcysteine (27%), SB202190 (13%)
+   - Marked 8 missing factors as NULL: Wnt3a, R-spondin, Noggin, CHIR99021, B27, N2, Nicotinamide, Gastrin
+   - Applied unit normalization (ng/mL, uM, mM, %)
+   - Added audit trail columns
+
+3. **Phase 3 - Gene Expression Processing:**
+   - Created `top_variable_genes` (1000 genes ranked by variance)
+   - Created `gene_expression_top1000` (490 × 1003) - wide format raw TPM
+   - Created `gene_expression_pathways` (490 × 29) - 9 pathway aggregates
+   - Created `gene_expression_markers` (490 × 26) - 25 curated markers
+
+4. **Phase 4 - Master Dataset Integration:**
+   - Created `master_dataset_v3` (660 × 206 columns)
+   - Integrated: clinical + media factors + pathways + markers + mutations
+   - DNA (VAF) and RNA (TPM) data side-by-side for same genes
+
+5. **Phase 4.5 - Data Cleaning:**
+   - Standardized missing values (Unknown, N/A, -- → NULL)
+   - Cleaned categorical values (gender, tissue_status)
+   - Created `data_cleaning_log` table (9 entries)
+
+6. **Phase 4.6 - Outlier Detection:**
+   - Created `outlier_flags` table (8 flagged cases)
+   - Detected age inconsistencies (acquisition < diagnosis)
+
+7. **Deployment:**
+   - Updated `download_database.py` with v3.0 version checking
+   - Created `database/db_metadata.json` for version tracking
+   - Pushed to GitHub (commit afac91b)
+   - Uploaded updated database to Google Drive
+   - Verified cloud download has all v3.0 tables
+
+**New Database Schema (v3.0):**
+| Table | Rows | Columns | Purpose |
+|-------|------|---------|---------|
+| media_factors_v3 | 660 | 60 | 13 factors with audit trail |
+| top_variable_genes | 1000 | 6 | Genes ranked by variance |
+| gene_expression_top1000 | 490 | 1003 | Wide format raw TPM |
+| gene_expression_pathways | 490 | 29 | 9 pathway aggregates |
+| gene_expression_markers | 490 | 26 | 25 curated markers |
+| master_dataset_v3 | 660 | 206 | Unified ML-ready dataset |
+| data_cleaning_log | 9 | 8 | Cleaning audit trail |
+| outlier_flags | 8 | 10 | Flagged outliers |
+
+**Data Coverage Summary:**
+- Total organoid models: 660
+- With media factors: 287 (43.5%)
+- With gene expression: 507 (76.8%)
+- With mutation data: 522 (79.1%)
+
+**Stop Point:** Phase 7 Complete: Database v3.0 deployed
+**Next Session:** ML model retraining with new features
