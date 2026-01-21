@@ -65,7 +65,8 @@ organoid-media-ml/
 │   ├── data_pipeline/        # ETL scripts
 │   ├── docs/                 # Documentation generators
 │   ├── scrapers/             # Data collection scripts
-│   └── verification/         # Data validation scripts
+│   ├── verification/         # Data validation scripts
+│   └── download_database.py  # Download DB from Google Drive
 ├── src/
 │   ├── evaluation/           # Model evaluation modules
 │   ├── models/               # ML model implementations
@@ -249,3 +250,36 @@ predictions = model.predict(X_new)
 
 **Stop Point:** Phase 5 Complete: Infrastructure & Governance system fully established
 **Next Session:** Review system integrity and plan the next research phase
+
+---
+
+### 2026-01-21: Database Distribution Setup
+
+**Accomplishments:**
+1. Reviewed repository completeness:
+   - Confirmed `organoid_data.db` is the only file excluded from Git
+   - Verified all source code, models, and documentation are present
+
+2. Set up database distribution via Google Drive:
+   - Uploaded organoid_data.db (4.8GB) to Google Drive
+   - File ID: `1B-E9pScJRukGVa9Tckc-JxMWDCw_AhhB`
+   - Public link: https://drive.google.com/file/d/1B-E9pScJRukGVa9Tckc-JxMWDCw_AhhB/view
+
+3. Created automated download workflow:
+   - Added `scripts/download_database.py` using gdown library
+   - Added `gdown>=5.0` to requirements.txt
+   - Updated README.md with simplified Quick Start
+
+4. Pushed to GitHub (commit 6c7ceb8)
+
+**New User Workflow:**
+```bash
+git clone https://github.com/Fahad8389/organoid-media-ml.git
+cd organoid-media-ml
+pip install -r requirements.txt
+python scripts/download_database.py  # Downloads 4.8GB from Google Drive
+python scripts/verification/verify_db_link.py
+```
+
+**Stop Point:** Phase 6 Complete: Database distribution system established
+**Next Session:** Plan next research phase (unit tests, inference API, or model interpretation)
