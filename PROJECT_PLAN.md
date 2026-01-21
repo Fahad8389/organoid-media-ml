@@ -65,7 +65,7 @@
 
 **Repository now fully self-contained:** Users can clone and run `python scripts/download_database.py` to get started.
 
-**Next session:** Plan the next research phase (unit tests, inference API, or model interpretation)
+**Next session:** Data Management
 
 ---
 
