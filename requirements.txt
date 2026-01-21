@@ -8,6 +8,9 @@ joblib>=1.3
 requests>=2.31
 beautifulsoup4>=4.12
 
+# Database download
+gdown>=5.0
+
 # Visualization (optional)
 matplotlib>=3.7
 seaborn>=0.12

@@ -10,25 +10,20 @@ This project uses machine learning to predict optimal culture media compositions
 
 ## Quick Start
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/your-org/organoid-media-ml.git
+# Clone and install
+git clone https://github.com/Fahad8389/organoid-media-ml.git
 cd organoid-media-ml
-```
-
-2. Install dependencies:
-```bash
 pip install -r requirements.txt
-pip install -e .  # Install package in editable mode
-```
+pip install -e .
 
-3. Place the database file:
-```bash
-# Download organoid_data.db (4.5GB) and place in database/
-```
+# Download database (~4.8 GB)
+python scripts/download_database.py
 
-4. Run training:
-```bash
+# Verify setup
+python scripts/verification/verify_db_link.py
+
+# Run training
 python train.py
 ```
 
