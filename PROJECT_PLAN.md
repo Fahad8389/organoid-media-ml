@@ -48,43 +48,68 @@
 - [x] Updated README.md with simplified Quick Start
 - [x] Verified repository completeness
 
+### Phase 7: Database Upgrade v3.0 ✅
+- [x] Created media_factors_v3 table (660 rows × 60 cols) - 13 factors with audit trail
+- [x] Created top_variable_genes table (1000 genes ranked by variance)
+- [x] Created gene_expression_top1000 table (490 × 1003) - wide format raw TPM
+- [x] Created gene_expression_pathways table (490 × 29) - 9 pathway aggregates
+- [x] Created gene_expression_markers table (490 × 26) - 25 curated markers
+- [x] Created master_dataset_v3 table (660 × 206) - unified dataset
+- [x] Created data_cleaning_log table (audit trail)
+- [x] Created outlier_flags table (8 flagged cases)
+- [x] Unit normalization applied (ng/mL, uM, mM, %)
+- [x] Data cleaning: standardized missing values, cleaned categories
+- [x] Created database/db_metadata.json for version tracking
+
 ---
 
 ## CURRENT STOP POINT
 
-**Date:** 2026-01-21
-**Status:** Phase 6 Complete: Database distribution system established
+**Date:** 2026-01-22
+**Status:** Phase 7 Complete: Database upgraded to v3.0 with 8 new tables
 
 **Last completed:**
-- Reviewed repository to confirm organoid_data.db is the only missing file
-- Uploaded database to Google Drive (File ID: 1B-E9pScJRukGVa9Tckc-JxMWDCw_AhhB)
-- Created automated download script (scripts/download_database.py)
-- Updated requirements.txt with gdown dependency
-- Simplified README.md Quick Start section
-- Pushed changes to GitHub (commit 6c7ceb8)
+- Analyzed ATCC formulation data (discovered concentrations not in raw text)
+- Decided on Option B: Use only existing data, NULL for missing factors
+- Created 8 new tables for ML training pipeline
+- Integrated DNA-seq (VAF) and RNA-seq (TPM) data in master_dataset_v3
+- Data cleaning and outlier flagging completed
+- Created db_metadata.json for version tracking
 
-**Repository now fully self-contained:** Users can clone and run `python scripts/download_database.py` to get started.
+**Database Version:** 3.0.0
+**New Tables Added:** 8
+**Total Tables:** 18
 
-**Next session:** Data Management
+**IMPORTANT - Cloud Sync Required:**
+- Local database updated but NOT yet uploaded to Google Drive
+- Must replace old Google Drive file with new version
+- File to upload: `database/organoid_data.db` (4.8GB)
+
+**Next session:**
+1. Upload new database to Google Drive
+2. Update download script with version check
+3. Begin ML model retraining with new features
 
 ---
 
 ## Next Tasks
 
 ### Immediate (Next Session)
-- [x] Review system integrity and verify all components
-- [ ] Clean up Desktop files (remove originals after verification)
+- [ ] **CRITICAL:** Upload database/organoid_data.db to Google Drive (replace old version)
+- [ ] Update Google Drive File ID if changed
+- [ ] Verify download script works with new database
 
 ### Short-term
-- [ ] Add unit tests for preprocessing
+- [ ] Retrain ML models using master_dataset_v3
+- [ ] Add interaction features (VAF × TPM) for key genes
 - [ ] Create inference API for predictions
-- [ ] Document model interpretation findings
+- [ ] Obtain ATCC formulation concentrations for 8 missing factors
 
 ### Future Ideas
 - [ ] Web interface for predictions
-- [ ] Add more media factors
+- [ ] Deep learning on gene_expression_top1000
 - [ ] Integrate new HCMI data releases
-- [ ] Experiment with deep learning approaches
+- [ ] Multi-task learning across all media factors
 
 ---
 

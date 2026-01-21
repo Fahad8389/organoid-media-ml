@@ -1,0 +1,90 @@
+{
+  "db_version": "3.0.0",
+  "updated_date": "2026-01-22",
+  "updated_by": "Claude Code Session",
+  "description": "Database upgraded with 8 new tables for ML training",
+  "tables": {
+    "atcc_formulations": {
+      "rows": 34,
+      "columns": 3
+    },
+    "clinical_data_full": {
+      "rows": 660,
+      "columns": 39
+    },
+    "data_cleaning_log": {
+      "rows": 9,
+      "columns": 8
+    },
+    "gene_expression": {
+      "rows": 29723400,
+      "columns": 5
+    },
+    "gene_expression_markers": {
+      "rows": 490,
+      "columns": 26
+    },
+    "gene_expression_pathways": {
+      "rows": 490,
+      "columns": 29
+    },
+    "gene_expression_top1000": {
+      "rows": 490,
+      "columns": 1003
+    },
+    "master_dataset_v2": {
+      "rows": 660,
+      "columns": 120
+    },
+    "master_dataset_v3": {
+      "rows": 660,
+      "columns": 206
+    },
+    "media_factors_structured": {
+      "rows": 317,
+      "columns": 14
+    },
+    "media_factors_structured_v2": {
+      "rows": 317,
+      "columns": 26
+    },
+    "media_factors_v3": {
+      "rows": 660,
+      "columns": 60
+    },
+    "media_protocols": {
+      "rows": 387,
+      "columns": 3
+    },
+    "mutations": {
+      "rows": 182835,
+      "columns": 8
+    },
+    "mutations_top50_pivot": {
+      "rows": 632,
+      "columns": 52
+    },
+    "outlier_flags": {
+      "rows": 8,
+      "columns": 10
+    },
+    "patients_metadata": {
+      "rows": 660,
+      "columns": 5
+    },
+    "top_variable_genes": {
+      "rows": 1000,
+      "columns": 6
+    }
+  },
+  "new_tables_v3": [
+    "media_factors_v3",
+    "top_variable_genes",
+    "gene_expression_top1000",
+    "gene_expression_pathways",
+    "gene_expression_markers",
+    "master_dataset_v3",
+    "data_cleaning_log",
+    "outlier_flags"
+  ]
+}
