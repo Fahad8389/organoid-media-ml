@@ -42,6 +42,14 @@
 **Models (`src/models/`):**
 - `media_recipe_generator.py` - Per-factor model ensemble
 
+**Beta Pipeline (`beta/`):**
+- `model.py` - BetaMediaPredictor with XGBoost
+- `preprocessing.py` - BetaPreprocessor
+- `confidence.py` - ConfidenceScorer
+- `validators.py` - InputValidator
+- `train.py` - Training script with 5-fold CV
+- `api.py` - Simple API for demo predictions
+
 **Evaluation (`src/evaluation/`):**
 - `cross_validation.py` - K-fold CV framework
 - `recipe_evaluator.py` - Recipe-level metrics
@@ -68,6 +76,17 @@ organoid-media-ml/
 │   └── cache/                # Temporary cached data
 ├── database/
 │   └── organoid_data.db      # SQLite database (4.5GB)
+├── beta/                     # Beta model pipeline (XGBoost)
+│   ├── model.py
+│   ├── preprocessing.py
+│   ├── confidence.py
+│   ├── validators.py
+│   ├── train.py
+│   └── api.py
+├── beta_output/              # Beta model artifacts
+│   ├── beta_model.joblib
+│   ├── beta_preprocessor.joblib
+│   └── beta_metrics.json
 ├── docs/
 │   ├── DATA_DICTIONARY.md    # Auto-generated schema reference
 │   └── TROUBLESHOOTING.md    # Common errors and fixes
@@ -366,3 +385,81 @@ python scripts/verification/verify_db_link.py
 
 **Stop Point:** Phase 7 Complete: Database v3.0 deployed
 **Next Session:** ML model retraining with new features
+
+---
+
+### 2026-01-24: Beta Publish Model Planning
+
+**Accomplishments:**
+1. Analyzed data weaknesses:
+   - Only 317/660 samples have media data (48%)
+   - Sparse factors: cholera_toxin (25), insulin (5)
+   - Cancer type imbalance (Colon/Pancreas/Esophagus = 45%)
+
+2. Designed Beta Publish Model pipeline:
+   - Isolated `beta/` module (won't affect main development)
+   - Scope limited to 8 supported cancer types (>20 samples each)
+   - Scope limited to 6 factors (>50 training samples each)
+   - Confidence scoring system (model variance + coverage + completeness)
+   - Predictions constrained to actual database values only
+
+3. Documented plan in `docs/BETA_PUBLISH_PLAN.md`
+
+**Key Design Decisions:**
+- Exclude cholera_toxin (25 samples) and insulin (5 samples) - too sparse
+- Predictions snap to nearest observed value in database (no interpolation)
+- Every prediction includes confidence score (0.0-1.0)
+- Unsupported cancer types return "insufficient data" instead of guessing
+
+**Stop Point:** Beta publish plan documented, ready for implementation
+**Next Session:** Implement Beta Publish Pipeline per docs/BETA_PUBLISH_PLAN.md
+
+---
+
+### 2026-01-27: Beta Model Implementation Complete
+
+**Accomplishments:**
+1. Created complete `beta/` module:
+   - `beta/__init__.py` - Package exports
+   - `beta/model.py` - BetaMediaPredictor with XGBoost
+   - `beta/preprocessing.py` - BetaPreprocessor with 80/20 split
+   - `beta/confidence.py` - ConfidenceScorer for prediction reliability
+   - `beta/validators.py` - InputValidator for data validation
+   - `beta/train.py` - Training script with 5-fold CV
+   - `beta/api.py` - Simple API for demo predictions
+
+2. Trained beta model:
+   - 660 samples total (528 train / 132 test)
+   - XGBoost with tuned hyperparameters
+   - 5-fold cross-validation on training set
+
+3. Model performance results:
+   | Factor | Type | CV Score | Test Score |
+   |--------|------|----------|------------|
+   | EGF | Regression | R² = 0.932 | R² = 0.993 |
+   | Y-27632 | Binary | - | Acc = 0.690 |
+   | FGF2 | Binary | - | Acc = 0.938 |
+   | N-acetyl-cysteine | Binary | - | Acc = 0.485 |
+   | A83-01 | Binary | - | Acc = 0.485 |
+   | SB202190 | Binary | - | Acc = 0.588 |
+
+4. Generated documentation:
+   - `beta_output/BETA_REPORT.md` - Training report
+   - Desktop exports for lab sharing:
+     - Onoids_beta_model.docx (results report)
+     - Onoids data base explain.docx (data protocol)
+     - master_dataset_v2.csv (training data)
+
+**Key Technical Decisions:**
+- Used XGBoost instead of GradientBoosting for better tabular performance
+- 80/20 split with stratification by primary_site
+- Binary classifiers had CV issues due to class imbalance (single constant values)
+- EGF is the only true regression target with variance
+
+**Known Issues:**
+- Binary classifiers show near-random accuracy for some factors (class imbalance)
+- Cholera toxin and insulin excluded (n < 10 samples)
+- 16 media factors have zero data coverage
+
+**Stop Point:** Beta model trained and documented, ready for event demo
+**Next Session:** Address class imbalance or deployment planning

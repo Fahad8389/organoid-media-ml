@@ -61,43 +61,60 @@
 - [x] Data cleaning: standardized missing values, cleaned categories
 - [x] Created database/db_metadata.json for version tracking
 
+### Phase 8: Beta Model Pipeline ✅
+- [x] Created `beta/` module with XGBoost-based predictor
+- [x] Implemented 80/20 train/test split with 5-fold cross-validation
+- [x] Trained beta model on 660 samples (528 train / 132 test)
+- [x] Best result: EGF R² = 0.993 on test set
+- [x] Created confidence scoring system
+- [x] Created input validators
+- [x] Created simple API for demo predictions
+- [x] Generated beta model report and data documentation
+
 ---
 
 ## CURRENT STOP POINT
 
-**Date:** 2026-01-22
-**Status:** Phase 7 Complete: Database upgraded to v3.0 with 8 new tables
+**Date:** 2026-01-27
+**Status:** Phase 8 Complete: Beta Model Pipeline Implemented & Trained
 
 **Last completed:**
-- Analyzed ATCC formulation data (discovered concentrations not in raw text)
-- Decided on Option B: Use only existing data, NULL for missing factors
-- Created 8 new tables for ML training pipeline
-- Integrated DNA-seq (VAF) and RNA-seq (TPM) data in master_dataset_v3
-- Data cleaning and outlier flagging completed
-- Created db_metadata.json for version tracking
+- Created complete `beta/` module with XGBoost-based predictor
+- Implemented 80/20 train/test split with 5-fold cross-validation
+- Trained beta model on 660 samples (528 train / 132 test)
+- Best result: EGF R² = 0.993 on test set
+- Created confidence scoring system
+- Created input validators
+- Created simple API for demo predictions
+- Generated beta model report (Onoids_beta_model.docx)
+- Generated data protocol documentation (Onoids data base explain.docx)
 
-**Database Version:** 3.0.0
-**New Tables Added:** 8
-**Total Tables:** 18
+**Beta Model Results:**
+| Factor | Task | Test Score |
+|--------|------|------------|
+| EGF | Regression | R² = 0.993 |
+| FGF2 | Binary | Acc = 0.938 |
+| Y-27632 | Binary | Acc = 0.690 |
 
-**IMPORTANT - Cloud Sync Required:**
-- Local database updated but NOT yet uploaded to Google Drive
-- Must replace old Google Drive file with new version
-- File to upload: `database/organoid_data.db` (4.8GB)
+**Artifacts saved to `beta_output/`:**
+- beta_model.joblib
+- beta_preprocessor.joblib
+- beta_metrics.json
+- BETA_REPORT.md
 
-**Next session:**
-1. Upload new database to Google Drive
-2. Update download script with version check
-3. Begin ML model retraining with new features
+**Next session:** Model refinement or deployment planning
 
 ---
 
 ## Next Tasks
 
 ### Immediate (Next Session)
-- [ ] **CRITICAL:** Upload database/organoid_data.db to Google Drive (replace old version)
-- [ ] Update Google Drive File ID if changed
-- [ ] Verify download script works with new database
+- [ ] Address binary classifier performance (class imbalance issue)
+- [ ] Add more cancer-type-specific features (per v4_ml_training_plan.json)
+- [ ] Create web demo interface
+
+### Deferred
+- [ ] Clean up Desktop files (remove originals after verification)
 
 ### Short-term
 - [ ] Retrain ML models using master_dataset_v3

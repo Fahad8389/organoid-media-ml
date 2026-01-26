@@ -1,0 +1,168 @@
+{
+  "version": "beta-1.0",
+  "timestamp": "2026-01-27T01:33:01.352847",
+  "data_split": {
+    "train_size": 528,
+    "test_size": 132,
+    "split_ratio": "80/20",
+    "cv_folds": 5
+  },
+  "cv_results": {
+    "egf": {
+      "score": 0.9322838784780082,
+      "std": 0.03821064649329203,
+      "n_samples": 207,
+      "task_type": "regression",
+      "metric": "R\u00b2"
+    },
+    "y27632": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 189,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "n_acetyl_cysteine": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 143,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "a83_01": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 143,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "sb202190": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 70,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "fgf2": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 59,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "cholera_toxin": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 22,
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/opt/miniconda3/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/core.py\", line 774, in inner_f\n    return func(**kwargs)\n  File \"/opt/miniconda3/lib/python3.13/site-packages/xgboost/sklearn.py\", line 1763, in fit\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: Invalid classes inferred from unique values of `y`.  Expected: [0], got [1]\n"
+    },
+    "insulin": {
+      "score": 0,
+      "std": 0,
+      "n_samples": 5
+    }
+  },
+  "test_metrics": {
+    "egf": {
+      "r2": 0.9933454479157816,
+      "mae": 0.6679858382867307,
+      "rmse": 1.1476290954760797,
+      "n_test": 49,
+      "task_type": "regression"
+    },
+    "y27632": {
+      "accuracy": 0.6904761904761905,
+      "n_test": 42,
+      "task_type": "binary_classifier"
+    },
+    "n_acetyl_cysteine": {
+      "accuracy": 0.48484848484848486,
+      "n_test": 33,
+      "task_type": "binary_classifier"
+    },
+    "a83_01": {
+      "accuracy": 0.48484848484848486,
+      "n_test": 33,
+      "task_type": "binary_classifier"
+    },
+    "sb202190": {
+      "accuracy": 0.5882352941176471,
+      "n_test": 17,
+      "task_type": "binary_classifier"
+    },
+    "fgf2": {
+      "accuracy": 0.9375,
+      "n_test": 16,
+      "task_type": "binary_classifier"
+    }
+  },
+  "factor_metadata": {
+    "egf": {
+      "model_type": "regression",
+      "n_samples": 207,
+      "n_unique_values": 3,
+      "constant_value": null,
+      "unit": "ng/mL",
+      "mean": 40.48309178743961,
+      "std": 14.338435484459929
+    },
+    "y27632": {
+      "model_type": "binary_classifier",
+      "n_samples": 189,
+      "n_unique_values": 1,
+      "constant_value": 10.0,
+      "unit": "uM",
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "n_acetyl_cysteine": {
+      "model_type": "binary_classifier",
+      "n_samples": 143,
+      "n_unique_values": 1,
+      "constant_value": 1.0,
+      "unit": "mM",
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "a83_01": {
+      "model_type": "binary_classifier",
+      "n_samples": 143,
+      "n_unique_values": 1,
+      "constant_value": 500.0,
+      "unit": "nM",
+      "mean": 500.0,
+      "std": 0.0
+    },
+    "sb202190": {
+      "model_type": "binary_classifier",
+      "n_samples": 70,
+      "n_unique_values": 1,
+      "constant_value": 10.0,
+      "unit": "uM",
+      "mean": 10.0,
+      "std": 0.0
+    },
+    "fgf2": {
+      "model_type": "binary_classifier",
+      "n_samples": 59,
+      "n_unique_values": 1,
+      "constant_value": 20.0,
+      "unit": "ng/mL",
+      "mean": 20.0,
+      "std": 0.0
+    },
+    "cholera_toxin": {
+      "model_type": "binary_classifier",
+      "n_samples": 22,
+      "n_unique_values": 2,
+      "constant_value": 9.0,
+      "unit": "ng/mL",
+      "mean": 15.545454545454545,
+      "std": 8.051780475843143
+    },
+    "insulin": {
+      "model_type": "constant",
+      "n_samples": 5,
+      "n_unique_values": 1,
+      "constant_value": 20.0,
+      "unit": "ug/mL",
+      "mean": 20.0,
+      "std": 0.0
+    }
+  }
+}
