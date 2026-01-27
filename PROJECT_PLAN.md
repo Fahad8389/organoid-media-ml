@@ -71,59 +71,58 @@
 - [x] Created simple API for demo predictions
 - [x] Generated beta model report and data documentation
 
+### Phase 9: MVP Planning & UI Handoff ✅
+- [x] Defined MVP input/output spec (58 input fields, 24 output factors)
+- [x] Chose API endpoint architecture (FastAPI backend + separate frontend)
+- [x] Created `docs/MVP_SPEC.md` — full UI developer handoff document
+- [x] Catalogued all 24 media factors with status (6 active, 2 coming soon, 16 in development)
+- [x] Defined sample request/response JSON format
+- [x] UI development handed off to collaborator
+
 ---
 
 ## CURRENT STOP POINT
 
 **Date:** 2026-01-27
-**Status:** Phase 8 Complete: Beta Model Pipeline Implemented & Trained
+**Status:** Phase 9 Complete: MVP Spec Written & UI Handed Off
 
 **Last completed:**
-- Created complete `beta/` module with XGBoost-based predictor
-- Implemented 80/20 train/test split with 5-fold cross-validation
-- Trained beta model on 660 samples (528 train / 132 test)
-- Best result: EGF R² = 0.993 on test set
-- Created confidence scoring system
-- Created input validators
-- Created simple API for demo predictions
-- Generated beta model report (Onoids_beta_model.docx)
-- Generated data protocol documentation (Onoids data base explain.docx)
+- Planned MVP website inputs: 1 required (cancer type) + 7 optional clinical + 50 optional genomic
+- Created `docs/MVP_SPEC.md` with full API contract for UI developer
+- Chose Option 1 architecture: You host FastAPI backend, friend builds frontend UI
+- All 24 media factors documented: 6 active, 2 coming soon, 16 in development
 
-**Beta Model Results:**
-| Factor | Task | Test Score |
-|--------|------|------------|
-| EGF | Regression | R² = 0.993 |
-| FGF2 | Binary | Acc = 0.938 |
-| Y-27632 | Binary | Acc = 0.690 |
+**Architecture Decision:**
+- Backend: FastAPI server wrapping `beta/api.py` (you build)
+- Frontend: Separate UI (friend builds from MVP_SPEC.md)
+- Integration: UI sends POST `/predict` → API returns JSON predictions
 
-**Artifacts saved to `beta_output/`:**
-- beta_model.joblib
-- beta_preprocessor.joblib
-- beta_metrics.json
-- BETA_REPORT.md
+**Artifacts:**
+- `docs/MVP_SPEC.md` — UI developer handoff document
 
-**Next session:** Model refinement or deployment planning
+**Next session:** Wait for UI to be built, then build FastAPI server and integrate
 
 ---
 
 ## Next Tasks
 
-### Immediate (Next Session)
+### Immediate (When Friend Finishes UI)
+- [ ] Build FastAPI server (`web/app.py`) wrapping `beta/api.py`
+- [ ] Deploy API to cloud (Render/Railway/Heroku)
+- [ ] Integration testing: UI → API → prediction → display
+- [ ] End-to-end polish
+
+### Short-term
 - [ ] Address binary classifier performance (class imbalance issue)
 - [ ] Add more cancer-type-specific features (per v4_ml_training_plan.json)
-- [ ] Create web demo interface
+- [ ] Retrain ML models using master_dataset_v3
+- [ ] Add interaction features (VAF × TPM) for key genes
+- [ ] Obtain ATCC formulation concentrations for 8 missing factors
 
 ### Deferred
 - [ ] Clean up Desktop files (remove originals after verification)
 
-### Short-term
-- [ ] Retrain ML models using master_dataset_v3
-- [ ] Add interaction features (VAF × TPM) for key genes
-- [ ] Create inference API for predictions
-- [ ] Obtain ATCC formulation concentrations for 8 missing factors
-
 ### Future Ideas
-- [ ] Web interface for predictions
 - [ ] Deep learning on gene_expression_top1000
 - [ ] Integrate new HCMI data releases
 - [ ] Multi-task learning across all media factors

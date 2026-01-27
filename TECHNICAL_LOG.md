@@ -463,3 +463,35 @@ python scripts/verification/verify_db_link.py
 
 **Stop Point:** Beta model trained and documented, ready for event demo
 **Next Session:** Address class imbalance or deployment planning
+
+---
+
+### 2026-01-27: MVP Planning & UI Handoff
+
+**Accomplishments:**
+1. Planned MVP website input/output specification:
+   - 1 required input: `primary_site` (cancer type dropdown, 17 options)
+   - 7 optional clinical inputs (gender, age, tissue status, etc.)
+   - 50 optional genomic inputs (gene VAF values, collapsed "Advanced" section)
+   - Total: 58 possible input fields
+
+2. Catalogued all 24 media factors with availability status:
+   - 6 Active: EGF, Y-27632, N-Acetylcysteine, A83-01, SB202190, FGF2
+   - 2 Coming Soon: Cholera Toxin (n=25), Insulin (n=5)
+   - 16 In Development: Wnt3a, R-spondin, Noggin, CHIR99021, B27, N2, Nicotinamide, Gastrin, FGF7, FGF10, Heparin, Hydrocortisone, Prostaglandin E2, Primocin, Forskolin, Heregulin, Neuregulin
+
+3. Architecture decision — Option 1 (API Endpoint):
+   - Backend: FastAPI server wrapping `beta/api.py` (to be built)
+   - Frontend: Separate UI built by collaborator from spec doc
+   - Communication: POST `/predict` with JSON request/response
+
+4. Created `docs/MVP_SPEC.md` — complete handoff document including:
+   - All input field definitions (keys, types, UI elements, valid values)
+   - Sample request JSON (minimal, clinical, full)
+   - Response JSON format with `status` field per factor (active/coming_soon/in_development)
+   - Error response format
+   - ASCII UI layout reference
+   - Display guide for rendering predictions
+
+**Stop Point:** MVP spec complete, UI development handed off to collaborator
+**Next Session:** When UI is ready, build FastAPI server and integrate
