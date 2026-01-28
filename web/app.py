@@ -314,7 +314,16 @@ async def predict(request: PredictionRequest):
             sample[k] = v
 
     # Get prediction
-    result = api.predict_single(sample)
+    try:
+        result = api.predict_single(sample)
+    except Exception as e:
+        import traceback
+        print(f"Prediction error: {e}")
+        print(traceback.format_exc())
+        raise HTTPException(
+            status_code=500,
+            detail=f"Prediction failed: {str(e)}"
+        )
 
     if not result.success:
         raise HTTPException(

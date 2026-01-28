@@ -425,8 +425,10 @@
 
             try {
                 const res = await fetch('/predict', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-                const result = await res.json();
-                if (!res.ok) throw new Error(result.detail);
+                const text = await res.text();
+                let result;
+                try { result = JSON.parse(text); } catch { throw new Error(text || 'Server error'); }
+                if (!res.ok) throw new Error(result.detail || 'Request failed');
                 showResults(result);
             } catch (e) {
                 document.getElementById('resultsContent').innerHTML = `<div class="card" style="color:#c62828">Error: ${e.message}</div>`;
