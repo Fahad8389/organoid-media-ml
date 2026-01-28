@@ -18,3 +18,11 @@ seaborn>=0.12
 # Jupyter (optional)
 jupyter>=1.0
 ipykernel>=6.0
+
+# Web API
+fastapi>=0.109
+uvicorn>=0.27
+pydantic>=2.0
+
+# ML (beta model)
+xgboost>=2.0

@@ -79,36 +79,49 @@
 - [x] Defined sample request/response JSON format
 - [x] UI development handed off to collaborator
 
+### Phase 10: FastAPI Backend ✅
+- [x] Created `web/app.py` with FastAPI server wrapping `beta/api.py`
+- [x] Added all 24 media factors with status (active, coming_soon, in_development)
+- [x] Added support info and "early version" notice to API response
+- [x] Fixed model feature ordering bug in `beta/model.py`
+- [x] Added all 50 VAF gene defaults for minimal input predictions
+- [x] Tested locally with curl - predictions working
+- [x] Added fastapi, uvicorn, pydantic, xgboost to requirements.txt
+
 ---
 
 ## CURRENT STOP POINT
 
-**Date:** 2026-01-27
-**Status:** Phase 9 Complete: MVP Spec Written & UI Handed Off
+**Date:** 2026-01-28
+**Status:** Phase 10 Complete: FastAPI Backend Built & Tested
 
 **Last completed:**
-- Planned MVP website inputs: 1 required (cancer type) + 7 optional clinical + 50 optional genomic
-- Created `docs/MVP_SPEC.md` with full API contract for UI developer
-- Chose Option 1 architecture: You host FastAPI backend, friend builds frontend UI
-- All 24 media factors documented: 6 active, 2 coming soon, 16 in development
+- Built FastAPI server at `web/app.py`
+- Fixed feature ordering bug that prevented inference
+- API tested locally: `POST /predict` returns all 24 factors with grades
+- Response includes: version, early notice, support email
 
-**Architecture Decision:**
-- Backend: FastAPI server wrapping `beta/api.py` (you build)
-- Frontend: Separate UI (friend builds from MVP_SPEC.md)
-- Integration: UI sends POST `/predict` → API returns JSON predictions
+**API Endpoints:**
+- `GET /` - API info with support/feedback
+- `GET /health` - Health check
+- `GET /factors` - List all 24 media factors
+- `POST /predict` - Predict media recipe
 
-**Artifacts:**
-- `docs/MVP_SPEC.md` — UI developer handoff document
+**Run locally:**
+```bash
+cd /Users/fahd838/Projects/organoid-media-ml
+python -m uvicorn web.app:app --host 0.0.0.0 --port 8000
+```
 
-**Next session:** Wait for UI to be built, then build FastAPI server and integrate
+**Next session:** Deploy to cloud (Render/Railway) and integrate with friend's UI
 
 ---
 
 ## Next Tasks
 
-### Immediate (When Friend Finishes UI)
-- [ ] Build FastAPI server (`web/app.py`) wrapping `beta/api.py`
+### Immediate
 - [ ] Deploy API to cloud (Render/Railway/Heroku)
+- [ ] Get deployment URL and share with friend for UI integration
 - [ ] Integration testing: UI → API → prediction → display
 - [ ] End-to-end polish
 

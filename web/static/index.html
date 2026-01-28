@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onoids - Organoid Media Recipe Predictor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa;
+            color: #333;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px 80px; }
+
+        /* Logo bar */
+        .logo-bar {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+        .logo-bar img { height: 32px; }
+
+        /* Main header */
+        .main-header {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 24px 0;
+        }
+        .main-header h1 {
+            color: white;
+            font-size: 26px;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Form grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 24px;
+        }
+        .form-group { margin-bottom: 0; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        label .req { color: #e53935; }
+
+        select, input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            color: #666;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: #999;
+        }
+
+        /* Collapsible */
+        .collapsible {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .collapse-header {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .collapse-header .arrow {
+            transition: transform 0.2s;
+        }
+        .collapsible.open .arrow { transform: rotate(90deg); }
+        .collapse-content {
+            display: none;
+            padding: 0 24px 24px;
+        }
+        .collapsible.open .collapse-content { display: block; }
+
+        .gene-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 24px;
+        }
+        .gene-item label { font-size: 13px; font-weight: 600; }
+        .gene-item label span { font-weight: 400; color: #888; }
+
+        /* Button */
+        .predict-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ef9a9a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 0 24px;
+        }
+        .predict-btn:hover { background: #e57373; }
+        .predict-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* Results */
+        .results { display: none; }
+        .results.show { display: block; }
+
+        .results-header {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .results-header h2 {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            font-style: italic;
+        }
+        .confidence-box {
+            background: #444;
+            border-radius: 8px;
+            padding: 12px 20px;
+            text-align: center;
+        }
+        .confidence-box .label { color: #aaa; font-size: 12px; }
+        .confidence-box .grade { color: white; font-size: 28px; font-weight: 700; }
+
+        /* Section headers */
+        .section-header {
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .section-header.active { background: #c8e6c9; color: #2e7d32; }
+        .section-header.coming { background: #fff3e0; color: #e65100; }
+        .section-header.dev { background: #eeeeee; color: #555; }
+
+        /* Results table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            background: #f8f8f8;
+            border: 1px solid #e8e8e8;
+        }
+        table td {
+            padding: 16px;
+            border: 1px solid #e8e8e8;
+            background: #f1f8e9;
+            font-size: 14px;
+        }
+        .grade { font-weight: 700; }
+        .grade-A { color: #2e7d32; }
+        .grade-B { color: #333; }
+        .grade-C { color: #e65100; }
+
+        /* Status items */
+        .status-item {
+            background: #fffde7;
+            border: 1px solid #fff3e0;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+        }
+        .status-item .name { font-weight: 600; font-size: 15px; }
+        .status-item .reason { font-size: 13px; color: #e65100; margin-top: 4px; }
+
+        /* Dev grid */
+        .dev-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .dev-item {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+        .dev-item .name { font-weight: 600; font-size: 15px; }
+        .dev-item .status { font-size: 13px; color: #888; margin-top: 4px; }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #d32f2f;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: white;
+            font-size: 15px;
+        }
+        .footer a { color: white; text-decoration: none; }
+        .footer svg { width: 24px; height: 24px; fill: white; }
+
+        .notice {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        .loading { text-align: center; padding: 40px; color: #888; }
+        .spinner {
+            width: 28px; height: 28px;
+            border: 3px solid #eee;
+            border-top-color: #ef9a9a;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .form-grid, .gene-grid, .dev-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-bar">
+        <img src="/static/logo.png" alt="Onoids">
+    </div>
+
+    <div class="container">
+        <div class="main-header">
+            <h1>Organoid Media Recipe Predictor</h1>
+        </div>
+
+        <p class="notice">This is an early version — predictions are for research purposes only.</p>
+
+        <!-- Cancer Type -->
+        <div class="card">
+            <div class="card-title">Cancer Type (Required)</div>
+            <div class="form-group">
+                <label>Cancer Type <span class="req">*</span></label>
+                <select id="primary_site">
+                    <option value="">[ Select cancer type... ]</option>
+                    <option>Breast</option>
+                    <option>Pancreas</option>
+                    <option>Colorectal</option>
+                    <option>Lung</option>
+                    <option>Ovarian</option>
+                    <option>Prostate</option>
+                    <option>Gastric</option>
+                    <option>Liver</option>
+                    <option>Kidney</option>
+                    <option>Bladder</option>
+                    <option>Esophagus</option>
+                    <option>Head and Neck</option>
+                    <option>Skin</option>
+                    <option>Brain</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Clinical Info -->
+        <div class="card">
+            <div class="card-title">Clinical Info (Optional)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="">[ Select... ]</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age at Diagnosis</label>
+                    <input type="number" id="age_at_diagnosis_years" placeholder="[ 0 - 120 ]" min="0" max="120">
+                </div>
+                <div class="form-group">
+                    <label>Age at Acquisition</label>
+                    <input type="number" id="age_at_acquisition_years" placeholder="[ 0 - 120 ]" min="0" max="120">
+                </div>
+                <div class="form-group">
+                    <label>Tissue Status</label>
+                    <select id="tissue_status">
+                        <option value="">[ Select... ]</option>
+                        <option>Tumor</option>
+                        <option>Normal</option>
+                        <option>Metastatic</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Disease Status</label>
+                    <input type="text" id="disease_status" placeholder="[ Type here... ]">
+                </div>
+                <div class="form-group">
+                    <label>Vital Status</label>
+                    <select id="vital_status">
+                        <option value="">[ Select... ]</option>
+                        <option>Alive</option>
+                        <option>Dead</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Histological Grade</label>
+                    <select id="histological_grade">
+                        <option value="">[ Select... ]</option>
+                        <option>G1</option>
+                        <option>G2</option>
+                        <option>G3</option>
+                        <option>G4</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Genomic Data -->
+        <div class="collapsible open" id="genomicSection">
+            <div class="collapse-header" onclick="document.getElementById('genomicSection').classList.toggle('open')">
+                <span class="arrow">›</span>
+                <span>Advanced: Genomic Data (click to expand — 50 gene fields)</span>
+            </div>
+            <div class="collapse-content">
+                <div class="gene-grid" id="geneGrid"></div>
+            </div>
+        </div>
+
+        <button class="predict-btn" id="predictBtn" onclick="predict()">Predict Media Recipe</button>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <div class="loading" id="loading"><div class="spinner"></div>Predicting...</div>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        <span>To support</span>
+        <a href="mailto:F.A.B.Alotaibi@gmail.com">F.A.B.Alotaibi@gmail.com</a>
+    </div>
+
+    <script>
+        const GENES = ['TP53','KRAS','APC','PIK3CA','ARID1A','KMT2D','RYR2','SYNE1','TTN','MUC16','FLG','OBSCN','CSMD3','PCLO','LRP1B','ZFHX4','CSMD1','FAT4','FAT3','DNAH5','FSIP2','HYDIN','RYR1','HMCN1','USH2A','RYR3','APOB','AHNAK2','CCDC168','ADGRV1','XIRP2','DNAH11','PLEC','NEB','CSMD2','RP1','SPTA1','MUC12','DCHS2','EYS','DNAH3','DNAH9','MACF1','TNXB','COL6A5','DNAH7','LRP2','PIEZO2','PKHD1L1','KCNQ1'];
+
+        const geneGrid = document.getElementById('geneGrid');
+        GENES.forEach(g => {
+            geneGrid.innerHTML += `<div class="gene-item"><label>${g} <span>[ 0.00-1.00 ]</span></label><input type="number" id="${g}_vaf" step="0.01" min="0" max="1" placeholder="0.00"></div>`;
+        });
+
+        async function predict() {
+            const ps = document.getElementById('primary_site').value;
+            if (!ps) return alert('Please select a cancer type');
+
+            const data = { primary_site: ps };
+            ['gender','age_at_diagnosis_years','age_at_acquisition_years','tissue_status','disease_status','vital_status','histological_grade'].forEach(f => {
+                const v = document.getElementById(f).value;
+                if (v) data[f] = f.includes('age') ? parseInt(v) : v;
+            });
+            GENES.forEach(g => {
+                const v = document.getElementById(g+'_vaf').value;
+                if (v) data[g+'_vaf'] = parseFloat(v);
+            });
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultsContent').innerHTML = '';
+            document.getElementById('predictBtn').disabled = true;
+
+            try {
+                const res = await fetch('/predict', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+                const result = await res.json();
+                if (!res.ok) throw new Error(result.detail);
+                showResults(result);
+            } catch (e) {
+                document.getElementById('resultsContent').innerHTML = `<div class="card" style="color:#c62828">Error: ${e.message}</div>`;
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+            }
+        }
+
+        function showResults(r) {
+            const p = r.predictions;
+            const active = [], coming = [], dev = [];
+            Object.entries(p).forEach(([k,v]) => {
+                if (v.status === 'active') active.push({k,...v});
+                else if (v.status === 'coming_soon') coming.push({k,...v});
+                else dev.push({k,...v});
+            });
+
+            const name = k => ({'egf':'EGF','y27632':'Y27632','n_acetyl_cysteine':'N Acetylcysteine','a83_01':'A83 01','sb202190':'SB202190','fgf2':'FGF2','cholera_toxin':'Cholera Toxin','insulin':'Insulin','wnt3a':'Wnt3a','r_spondin':'R Spondin','noggin':'Noggin','chir99021':'Chir99021','b27':'B27 Supplement','n2':'N2 Supplement','nicotinamide':'Nicotinamide','gastrin':'Gastrin','fgf7':'FGF7','fgf10':'FGF10','heparin':'Heparin','hydrocortisone':'Hydrocortisone','prostaglandin_e2':'Prostaglandin E2','primocin':'Primocin','forskolin':'Forskolin','heregulin':'Heregulin','neuregulin':'Neuregulin'})[k] || k;
+
+            let h = `
+                <div class="results-header">
+                    <h2>Predicted Media Recipe</h2>
+                    <div class="confidence-box"><div class="label">Confidence:</div><div class="grade">${r.confidence.overall_grade}</div></div>
+                </div>
+                <div class="card">
+                    <div class="section-header active">ACTIVE PREDICTIONS (${active.length} factors)</div>
+                    <table><tr><th>Factor</th><th>Value</th><th>Action</th><th>Grade</th></tr>`;
+
+            active.forEach(f => {
+                const val = f.type==='concentration' && f.value ? `${Math.round(f.value)} ${f.unit}` : (f.value===1 ? `1 ${f.unit}` : '—');
+                const act = f.action ? f.action.charAt(0).toUpperCase()+f.action.slice(1) : '—';
+                h += `<tr><td>${name(f.k)}</td><td>${val}</td><td>${act}</td><td class="grade grade-${f.grade}">${f.grade||'—'}</td></tr>`;
+            });
+            h += `</table></div>`;
+
+            if (coming.length) {
+                h += `<div class="card"><div class="section-header coming">COMING SOON (${coming.length} factors — have data, need more samples)</div>`;
+                coming.forEach(f => h += `<div class="status-item"><div class="name">${name(f.k)}</div><div class="reason">${f.status_label||'Coming Soon'}</div></div>`);
+                h += `</div>`;
+            }
+
+            if (dev.length) {
+                h += `<div class="card"><div class="section-header dev">IN DEVELOPMENT (${dev.length} factors — data collection in progress)</div><div class="dev-grid">`;
+                dev.forEach(f => h += `<div class="dev-item"><div class="name">${name(f.k)}</div><div class="status">In Development</div></div>`);
+                h += `</div></div>`;
+            }
+
+            document.getElementById('resultsContent').innerHTML = h;
+        }
+    </script>
+</body>
+</html>

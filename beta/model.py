@@ -176,6 +176,14 @@ class BetaMediaPredictor:
         if not self.fitted:
             raise ValueError("Model not fitted. Call fit() first.")
 
+        # Reorder columns to match training feature order
+        missing_cols = set(self.feature_names) - set(X.columns)
+        if missing_cols:
+            # Add missing columns with zeros
+            for col in missing_cols:
+                X[col] = 0
+        X = X[self.feature_names]
+
         X_clean = X.fillna(0)
         predictions = {}
         confidences = {}
