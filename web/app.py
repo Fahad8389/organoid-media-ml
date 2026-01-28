@@ -262,6 +262,51 @@ async def debug():
     return debug_info
 
 
+@app.get("/test-predict")
+async def test_predict():
+    """Test endpoint to debug prediction flow."""
+    import traceback
+
+    steps = {"api_loaded": api is not None}
+
+    if api is None:
+        return {"error": "API not loaded", "steps": steps}
+
+    try:
+        # Build sample
+        sample = {
+            'primary_site': 'Breast',
+            'gender': 'Unknown',
+            'tissue_status': 'Unknown',
+            'disease_status': 'Unknown',
+            'vital_status': 'Unknown',
+            'histological_grade': 'Unknown',
+            'model_type': 'Unknown',
+            'age_at_diagnosis_years': None,
+            'age_at_acquisition_years': None,
+        }
+        for gene in ['TP53', 'KRAS', 'APC', 'PIK3CA', 'ARID1A']:
+            sample[f'{gene}_vaf'] = None
+        steps["sample_built"] = True
+
+        # Try predict
+        result = api.predict_single(sample)
+        steps["predict_called"] = True
+        steps["predict_success"] = result.success
+
+        if result.success:
+            steps["recipe_keys"] = list(result.recipe.keys())
+        else:
+            steps["error"] = result.error
+
+        return {"success": True, "steps": steps}
+
+    except Exception as e:
+        steps["exception"] = str(e)
+        steps["traceback"] = traceback.format_exc()
+        return {"success": False, "steps": steps}
+
+
 @app.get("/factors")
 async def list_factors():
     """List all media factors with their status."""
