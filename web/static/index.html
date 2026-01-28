@@ -359,7 +359,7 @@
         </div>
 
         <!-- Genomic Data -->
-        <div class="collapsible open" id="genomicSection">
+        <div class="collapsible" id="genomicSection">
             <div class="collapse-header" onclick="document.getElementById('genomicSection').classList.toggle('open')">
                 <span class="arrow">›</span>
                 <span>Advanced: Genomic Data (click to expand — 50 gene fields)</span>
@@ -398,12 +398,24 @@
 
             const data = { primary_site: ps };
             ['gender','age_at_diagnosis_years','age_at_acquisition_years','tissue_status','disease_status','vital_status','histological_grade'].forEach(f => {
-                const v = document.getElementById(f).value;
-                if (v) data[f] = f.includes('age') ? parseInt(v) : v;
+                const el = document.getElementById(f);
+                const v = el ? el.value : '';
+                if (v && v.trim() !== '') {
+                    if (f.includes('age')) {
+                        const num = parseInt(v);
+                        if (!isNaN(num)) data[f] = num;
+                    } else {
+                        data[f] = v;
+                    }
+                }
             });
             GENES.forEach(g => {
-                const v = document.getElementById(g+'_vaf').value;
-                if (v) data[g+'_vaf'] = parseFloat(v);
+                const el = document.getElementById(g+'_vaf');
+                const v = el ? el.value : '';
+                if (v && v.trim() !== '') {
+                    const num = parseFloat(v);
+                    if (!isNaN(num)) data[g+'_vaf'] = num;
+                }
             });
 
             document.getElementById('results').classList.add('show');
