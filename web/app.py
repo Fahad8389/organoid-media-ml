@@ -244,6 +244,24 @@ async def health():
     }
 
 
+@app.get("/debug")
+async def debug():
+    """Debug endpoint to check model status."""
+    import sys
+    debug_info = {
+        "python_version": sys.version,
+        "model_loaded": api is not None,
+        "project_root": str(PROJECT_ROOT),
+    }
+
+    if api is not None:
+        debug_info["preprocessor_feature_cols"] = api.preprocessor.feature_columns[:10]
+        debug_info["preprocessor_target_cols"] = api.preprocessor.target_columns
+        debug_info["preprocessor_fitted"] = api.preprocessor.fitted
+
+    return debug_info
+
+
 @app.get("/factors")
 async def list_factors():
     """List all media factors with their status."""
